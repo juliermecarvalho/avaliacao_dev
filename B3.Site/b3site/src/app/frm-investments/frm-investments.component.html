@@ -1,0 +1,48 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === true">
+    <mat-toolbar>[B]³</mat-toolbar>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>[B]³</span>
+    </mat-toolbar>
+
+
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+      <div >
+        <mat-form-field  appearance="fill">
+          <mat-label>Valor inicial</mat-label>
+          <input matInput formControlName="initialValue" placeholder="Ex. 10.000,00">
+
+        </mat-form-field>
+
+
+        <mat-form-field  appearance="fill">
+          <mat-label>Quantidade meses</mat-label>
+          <input matInput  formControlName="timeInMonths" placeholder="Ex. 3">
+
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary">Primary</button>
+
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
