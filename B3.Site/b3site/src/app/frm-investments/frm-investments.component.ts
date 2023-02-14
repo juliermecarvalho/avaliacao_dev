@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { InvestmentService } from '../services/investment.service';
+import { MatTable } from '@angular/material/table';
+
+
+
 
 @Component({
   selector: 'app-frm-investments',
@@ -12,8 +16,10 @@ import { InvestmentService } from '../services/investment.service';
 })
 export class FrmInvestmentsComponent {
   frm: FormGroup;
-
-
+  displayedColumns: string[] = ['initialValue', 'timeInMonths', 'value'];
+  elementos : any[] = [];
+  dataSource: any[] = [];
+  @ViewChild(MatTable) table: MatTable<any> | undefined;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -23,8 +29,8 @@ export class FrmInvestmentsComponent {
   constructor(private breakpointObserver: BreakpointObserver, private formBuilder: FormBuilder, private investmentService: InvestmentService) {
 
     this.frm = this.formBuilder.group({
-      initialValue: new FormControl(5, [Validators.required]),
-      timeInMonths: new FormControl(5, [Validators.required])
+      initialValue: new FormControl(null, [Validators.required]),
+      timeInMonths: new FormControl(null, [Validators.required])
     });
 
   }
@@ -34,7 +40,18 @@ export class FrmInvestmentsComponent {
 
     this.investmentService.calculateFinalValue(this.frm.value).subscribe({
       next: (value: any) => {
-        console.log("🚀 ~ file: frm-investments.component.ts:42 ~ FrmInvestmentsComponent ~ this.investmentService.calculateFinalValue ~ value", value)
+
+        this.dataSource.push({
+          initialValue: this.frm.value.initialValue,
+          timeInMonths: this.frm.value.timeInMonths,
+          value: value
+        });
+        this.table?.renderRows();
+
+
+
+        this.frm.reset();
+        this.frm.markAsPending();
 
       }
 

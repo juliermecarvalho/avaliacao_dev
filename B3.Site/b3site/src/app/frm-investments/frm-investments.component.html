@@ -15,31 +15,64 @@
 
 
     <form [formGroup]="frm" (ngSubmit)="onSubmit()">
-      <div >
-        <mat-form-field  appearance="fill">
-          <mat-label>Valor inicial</mat-label>
-          <input matInput formControlName="initialValue" placeholder="Ex. 10.000,00">
+      <h1>cálculo do CDB</h1>
 
-        </mat-form-field>
+      <div>
+        <div class="padding-right-8">
+          <mat-form-field appearance="fill">
+            <mat-label>Valor inicial</mat-label>
+            <input matInput formControlName="initialValue" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" placeholder="Ex. 10.000">
 
+          </mat-form-field>
+        </div>
+        <div class="padding-right-8">
+          <mat-form-field appearance="fill">
+            <mat-label>Quantidade meses</mat-label>
+            <input matInput formControlName="timeInMonths" type="number" placeholder="Ex. 3">
 
-        <mat-form-field  appearance="fill">
-          <mat-label>Quantidade meses</mat-label>
-          <input matInput  formControlName="timeInMonths" placeholder="Ex. 3">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="padding-right-8">
 
-        </mat-form-field>
+        <button mat-raised-button color="primary">Primary</button>
       </div>
 
-      <button mat-raised-button color="primary">Primary</button>
-
-    </form>
 
 
 
 
 
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="initialValue">
+        <th mat-header-cell *matHeaderCellDef> valor inicial </th>
+        <td mat-cell *matCellDef="let element"> {{element.initialValue | currency:'BRL':true}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="timeInMonths">
+        <th mat-header-cell *matHeaderCellDef> quantidade meses </th>
+        <td mat-cell *matCellDef="let element"> {{element.timeInMonths}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef> valor final </th>
+        <td mat-cell *matCellDef="let element"> {{element.value | currency:'BRL':true}} </td>
+      </ng-container>
 
 
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </form>
 
 
 
