@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class InvestmentService {
 
 
-  private readonly API = 'http://localhost:32826/';
+  public readonly API = 'http://localhost:32826/';
 
   constructor(private http: HttpClient) { }
 
