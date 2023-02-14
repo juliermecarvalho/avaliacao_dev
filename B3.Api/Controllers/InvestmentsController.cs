@@ -17,7 +17,6 @@ namespace B3.Api.Controllers
             decimal cdi = 0.009m;
             decimal tb = 1.08m;
          
-
             return investment.CalculateFinalValue(cdi, tb);
         }
 
