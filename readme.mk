@@ -5,7 +5,7 @@ Avaliação Dev para B3
 Instruções para Abrir o Projeto B3.Api no Visual Studio:
 
 1. Abra o Visual Studio e selecione "Abrir um Projeto ou Solução".
-2. Navegue até a pasta "avaliacao_dev\B3" e selecione o arquivo com a extensão ".sln".
+2. Navegue até a pasta "avaliacao_dev\B3" e selecione o arquivo com a extensão ".sln", "TARGET FRAMEWORK .NET 6.0"
 3. Quando o projeto for aberto, clique com o botão direito do mouse no projeto "B3.Api" na janela "Solução" e selecione "Definir como Projeto de Inicialização".
 4. Pressione "F5" para iniciar o projeto ou clique no ícone de play na barra de ferramentas.
 
