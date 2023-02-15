@@ -39,7 +39,7 @@ Instruções para Executar os Testes no Projeto B3.Site no Visual Studio Code:
 
 
 
-Com essas instruções, você deve ser capaz de abrir e executar ambos os projetos com sucesso.
+
 
 
 
