@@ -138,8 +138,34 @@ namespace B3.Test
 
             // Act
             investment.CalculateFinalValue(cdi, tb);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Error, the CDI must be greater than 0")]
+        public void Generates_error_when_cdi_less_than_zero()
+        {
+            // Arrange
+            var investment = new Investment(10, 25);
+
+            // Act
+            investment.CalculateFinalValue(0, tb);
 
 
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "Error, the TB must be greater than 0")]
+        public void Generates_error_when_td_less_than_zero()
+        {
+            // Arrange
+            var investment = new Investment(10, 25);
+
+            // Act
+            investment.CalculateFinalValue(cdi, 0);
+
+
+        }
+
     }
 }

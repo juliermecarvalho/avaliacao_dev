@@ -3,8 +3,6 @@ namespace B3.Models
     public class Investment
     {
 
-      
-
         public Investment(decimal initialValue, int timeInMonths)
         {
             if (timeInMonths < 1)
@@ -55,13 +53,13 @@ namespace B3.Models
         public decimal CalculateFinalValue(decimal cdi, decimal tb)
         {
 
-            if (cdi < 0)
+            if (cdi <= 0)
             {
                 Exception exception = new Exception("Error, the CDI must be greater than 0");
                 throw exception;
             }
 
-            if (tb < 0)
+            if (tb <= 0)
             {
                 Exception exception = new Exception("Error, the TB must be greater than 0");
                 throw exception;
