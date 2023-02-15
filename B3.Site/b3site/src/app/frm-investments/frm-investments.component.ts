@@ -17,7 +17,7 @@ import { MatTable } from '@angular/material/table';
 export class FrmInvestmentsComponent {
   frm: FormGroup;
   displayedColumns: string[] = ['initialValue', 'timeInMonths', 'value'];
-  elementos : any[] = [];
+  elementos: any[] = [];
   dataSource: any[] = [];
   @ViewChild(MatTable) table: MatTable<any> | undefined;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -37,25 +37,26 @@ export class FrmInvestmentsComponent {
 
   onSubmit(): void {
 
+    if (this.frm.valid) {
+      this.investmentService.calculateFinalValue(this.frm.value).subscribe({
+        next: (value: any) => {
 
-    this.investmentService.calculateFinalValue(this.frm.value).subscribe({
-      next: (value: any) => {
-
-        this.dataSource.push({
-          initialValue: this.frm.value.initialValue,
-          timeInMonths: this.frm.value.timeInMonths,
-          value: value
-        });
-        this.table?.renderRows();
+          this.dataSource.push({
+            initialValue: this.frm.value.initialValue,
+            timeInMonths: this.frm.value.timeInMonths,
+            value: value
+          });
+          this.table?.renderRows();
 
 
 
-        this.frm.reset();
-        this.frm.markAsPending();
+          this.frm.reset();
+          this.frm.markAsPending();
 
-      }
+        }
 
-    })
+      })
+    }
 
   }
 
