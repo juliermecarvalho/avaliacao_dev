@@ -2,6 +2,12 @@ namespace B3.Models
 {
     public class Investment
     {
+        private decimal InitialValue { get; set; }
+        private int TimeInMonths { get; set; }
+
+
+        private readonly decimal _cdi = 0.009m;
+        private readonly decimal _tb = 1.08m;
 
         public Investment(decimal initialValue, int timeInMonths)
         {
@@ -21,14 +27,8 @@ namespace B3.Models
             TimeInMonths = timeInMonths;
         }
 
-        private decimal InitialValue { get; set; }
-        private int TimeInMonths { get; set; }
-
-
         public decimal GetTaxPercentage()
         {
-
-
             decimal taxPercentage;
             if (TimeInMonths <= 6)
             {
@@ -50,22 +50,9 @@ namespace B3.Models
             return taxPercentage;
         }
 
-        public decimal CalculateFinalValue(decimal cdi, decimal tb)
+        public decimal CalculateFinalValue()
         {
-
-            if (cdi <= 0)
-            {
-                Exception exception = new Exception("Error, the CDI must be greater than 0");
-                throw exception;
-            }
-
-            if (tb <= 0)
-            {
-                Exception exception = new Exception("Error, the TB must be greater than 0");
-                throw exception;
-            }
-
-            var finalValue = InitialValue * (1 + cdi * tb);
+            var finalValue = InitialValue * (1 + _cdi * _tb);
             finalValue -= finalValue * GetTaxPercentage();
 
             return finalValue;

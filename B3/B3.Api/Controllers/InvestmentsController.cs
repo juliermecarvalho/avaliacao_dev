@@ -12,10 +12,7 @@ namespace B3.Controllers
         [Route("calculate-final-value")]
         public decimal CalculateFinalValue(decimal initialValue, int timeInMonths)
         {
-            decimal cdi = 0.009m;
-            decimal tb = 1.08m;
-
-            return new Investment(initialValue, timeInMonths).CalculateFinalValue(cdi, tb);
+            return new Investment(initialValue, timeInMonths).CalculateFinalValue();
 
         }
 

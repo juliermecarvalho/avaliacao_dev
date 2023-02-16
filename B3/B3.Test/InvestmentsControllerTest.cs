@@ -6,8 +6,7 @@ namespace B3.Test
     [TestClass]
     public class InvestmentsControllerTest
     {
-        const decimal cdi = 0.009m;
-        const decimal tb = 1.08m;
+       
 
         [TestMethod]
         public void Calculate_final_value_6()
@@ -17,7 +16,7 @@ namespace B3.Test
             var expcted = 7.82533000M;
 
             // Act
-            var actual = investment.CalculateFinalValue(cdi, tb);
+            var actual = investment.CalculateFinalValue();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -32,7 +31,7 @@ namespace B3.Test
             var expcted = 8.077760M;
 
             // Act
-            var actual = investment.CalculateFinalValue(cdi, tb);
+            var actual = investment.CalculateFinalValue();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -48,7 +47,7 @@ namespace B3.Test
             var expcted = 8.33019000M;
 
             // Act
-            var actual = investment.CalculateFinalValue(cdi, tb);
+            var actual = investment.CalculateFinalValue();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -64,7 +63,7 @@ namespace B3.Test
             var expcted = 8.5826200M;
 
             // Act
-            var actual = investment.CalculateFinalValue(cdi, tb);
+            var actual = investment.CalculateFinalValue();
 
             // Assert
             Assert.IsNotNull(actual);
@@ -77,12 +76,8 @@ namespace B3.Test
         public void Generates_error_the_month_less_than_one()
         {
             // Arrange
+            new Investment(10, 0);
 
-            var investment = new Investment(10, 0);
-
-
-            // Act
-            investment.GetTaxPercentage();
 
         }
 
@@ -91,10 +86,8 @@ namespace B3.Test
         public void Generates_error_when_initial_value_less_than_zero()
         {
             // Arrange
-            var investment = new Investment(0, 1);
+             new Investment(0, 1);
 
-            // Act
-            investment.CalculateFinalValue(cdi, tb);
 
 
         }
@@ -121,11 +114,7 @@ namespace B3.Test
         public void GeneratesErrorWhenCdiValueLessThanZero()
         {
             // Arrange
-            var investment = new Investment(0, 1);
-
-            // Act
-            investment.CalculateFinalValue(cdi, tb);
-
+            new Investment(0, 1);
 
         }
 
@@ -134,38 +123,10 @@ namespace B3.Test
         public void GeneratesErrorWhenTbValueLessThanZero()
         {
             // Arrange
-            var investment = new Investment(0, 1);
-
-            // Act
-            investment.CalculateFinalValue(cdi, tb);
+            new Investment(0, 1);
+          
         }
-
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception), "Error, the CDI must be greater than 0")]
-        public void Generates_error_when_cdi_less_than_zero()
-        {
-            // Arrange
-            var investment = new Investment(10, 25);
-
-            // Act
-            investment.CalculateFinalValue(0, tb);
-
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception), "Error, the TB must be greater than 0")]
-        public void Generates_error_when_td_less_than_zero()
-        {
-            // Arrange
-            var investment = new Investment(10, 25);
-
-            // Act
-            investment.CalculateFinalValue(cdi, 0);
-
-
-        }
+      
 
     }
 }
