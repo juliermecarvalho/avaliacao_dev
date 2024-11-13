@@ -28,7 +28,7 @@ Instruções para Abrir o Projeto B3.Site no Visual Studio Code:
 
 Instruções para Uso do Script PowerShell:
 
-Este script PowerShell automatiza a inicialização do backend e do frontend do projeto. Ele realiza as seguintes ações:
+Este script PowerShell start-b3-environment.ps1 automatiza a inicialização do backend e do frontend do projeto. Ele realiza as seguintes ações:
 
 1. Navega até a pasta "B3\B3.Api" e executa o comando `dotnet run` para iniciar a API.
 2. Abre uma nova janela do PowerShell, navega até a pasta "B3\B3.Site\b3site", instala as dependências do Angular com `npm install --force` e inicia o servidor com `ng serve -o`.
