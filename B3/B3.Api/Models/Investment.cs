@@ -1,61 +1,49 @@
-namespace B3.Models
+namespace B3.Api.Models;
+
+public class Investment
 {
-    public class Investment
+    public decimal InitialValue { get; private set; }
+    public int TimeInMonths { get; private set; }
+
+    private const decimal Cdi = 0.009m;
+    private const decimal Tb = 1.08m;
+
+    public Investment(decimal initialValue, int timeInMonths)
     {
-        private decimal InitialValue { get; set; }
-        private int TimeInMonths { get; set; }
-
-
-        private readonly decimal _cdi = 0.009m;
-        private readonly decimal _tb = 1.08m;
-
-        public Investment(decimal initialValue, int timeInMonths)
+        if (timeInMonths < 1)
         {
-            if (timeInMonths < 1)
-            {
-                Exception exception = new Exception("Error the month must be greater than 0");
-                throw exception;
-            }
-
-            if (initialValue <= 0)
-            {
-                Exception exception = new Exception("Error initial value must be greater than 0");
-                throw exception;
-            }
-
-            InitialValue = initialValue;
-            TimeInMonths = timeInMonths;
+            throw new ArgumentException("O mês deve ser maior que 0", nameof(timeInMonths));
         }
 
-        public decimal GetTaxPercentage()
+        if (initialValue <= 0)
         {
-            decimal taxPercentage;
-            if (TimeInMonths <= 6)
-            {
-                taxPercentage = 0.225m;
-            }
-            else if (TimeInMonths <= 12)
-            {
-                taxPercentage = 0.2m;
-            }
-            else if (TimeInMonths <= 24)
-            {
-                taxPercentage = 0.175m;
-            }
-            else
-            {
-                taxPercentage = 0.15m;
-            }
-
-            return taxPercentage;
+            throw new ArgumentException("O valor inicial deve ser maior que 0", nameof(initialValue));
         }
 
-        public decimal CalculateFinalValue()
-        {
-            var finalValue = InitialValue * (1 + _cdi * _tb);
-            finalValue -= finalValue * GetTaxPercentage();
+        InitialValue = initialValue;
+        TimeInMonths = timeInMonths;
+    }
 
-            return finalValue;
+    public decimal GetTaxPercentage()
+    {
+        return TimeInMonths switch
+        {
+            <= 6 => 0.225m,
+            <= 12 => 0.2m,
+            <= 24 => 0.175m,
+            _ => 0.15m,
+        };
+    }
+
+    public decimal CalculateFinalValue()
+    {
+        var finalValue = InitialValue;
+        for (int i = 0; i < TimeInMonths; i++)
+        {
+            finalValue *= (1 + Cdi * Tb);
         }
+        finalValue -= finalValue * GetTaxPercentage();
+
+        return finalValue;
     }
 }

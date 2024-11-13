@@ -8,23 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class InvestmentService {
 
-
-  public readonly API = 'http://localhost:32826/';
+//http://localhost:5280/swagger/index.html
+  public readonly API = 'http://localhost:5280/';
 
   constructor(private http: HttpClient) { }
 
   calculateFinalValue(frm: any): Observable<any> {
     const url = `${this.API}investments/calculate-final-value`
 
-
-    let httpParams = new HttpParams();
-    httpParams = httpParams
-      .append('initialValue', frm.initialValue)
-      .append('timeInMonths', frm.timeInMonths);
-
-
-
-    return this.http.post<any>(url, null, { params: httpParams });
+    return this.http.post<any>(url, frm);
   }
 
 }

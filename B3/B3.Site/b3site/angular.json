@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "b3site:build:production"
+              "buildTarget": "b3site:build:production"
             },
             "development": {
-              "browserTarget": "b3site:build:development"
+              "buildTarget": "b3site:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "b3site:build"
+            "buildTarget": "b3site:build"
           }
         },
         "test": {
