@@ -2,21 +2,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InvestmentService {
 
-//http://localhost:5280/swagger/index.html
   public readonly API = 'http://localhost:5280/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   calculateFinalValue(frm: any): Observable<any> {
-    const url = `${this.API}investments/calculate-final-value`
+    const url = `${this.API}investments/calculate-final-value`;
 
     return this.http.post<any>(url, frm);
   }
-
 }

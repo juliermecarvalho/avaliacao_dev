@@ -14,7 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FrmInvestmentsComponent } from './frm-investments/frm-investments.component';
@@ -26,10 +26,7 @@ import { registerLocaleData } from '@angular/common';
 registerLocaleData(ptBr);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FrmInvestmentsComponent
-  ],
+  declarations: [AppComponent, FrmInvestmentsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,15 +45,14 @@ registerLocaleData(ptBr);
     MatInputModule,
     HttpClientModule,
     MatTableModule,
-    CurrencyMaskModule
-
+    CurrencyMaskModule,
   ],
   providers: [
     {
-      provide: LOCALE_ID, useValue: 'pt'
-    }
-
+      provide: LOCALE_ID,
+      useValue: 'pt',
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

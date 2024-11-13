@@ -3,16 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { FrmInvestmentsComponent } from './frm-investments/frm-investments.component';
 
 const routes: Routes = [
-
   {
     path: '',
-    component: FrmInvestmentsComponent
+    component: FrmInvestmentsComponent,
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

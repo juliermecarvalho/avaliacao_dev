@@ -1,18 +1,27 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === true">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === true"
+  >
     <mat-toolbar>[B]³</mat-toolbar>
-
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>[B]³</span>
     </mat-toolbar>
-
 
     <form [formGroup]="frm" (ngSubmit)="onSubmit()">
       <h1>cálculo do CDB</h1>
@@ -21,61 +30,60 @@
         <div class="padding-right-8">
           <mat-form-field appearance="fill">
             <mat-label>Valor inicial</mat-label>
-            <input matInput formControlName="initialValue" currencyMask  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" placeholder="Ex. 10.000">
-
+            <input
+              matInput
+              formControlName="initialValue"
+              currencyMask
+              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+              placeholder="Ex. 10.000"
+            />
           </mat-form-field>
         </div>
         <div class="padding-right-8">
           <mat-form-field appearance="fill">
             <mat-label>Quantidade meses</mat-label>
-            <input matInput formControlName="timeInMonths" type="number" placeholder="Ex. 3">
-
+            <input
+              matInput
+              formControlName="timeInMonths"
+              type="number"
+              placeholder="Ex. 3"
+            />
           </mat-form-field>
         </div>
       </div>
       <div class="padding-right-8">
-
         <button mat-raised-button color="primary">Primary</button>
       </div>
 
-
-
-
-
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
-
-      <!--- Note that these columns can be defined in any order.
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="initialValue">
-        <th mat-header-cell *matHeaderCellDef> valor inicial </th>
-        <td mat-cell *matCellDef="let element"> {{element.initialValue | currency:'BRL':true}} </td>
-      </ng-container>
+        <!-- Position Column -->
+        <ng-container matColumnDef="initialValue">
+          <th mat-header-cell *matHeaderCellDef>valor inicial</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.initialValue | currency : "BRL" : true }}
+          </td>
+        </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="timeInMonths">
-        <th mat-header-cell *matHeaderCellDef> quantidade meses </th>
-        <td mat-cell *matCellDef="let element"> {{element.timeInMonths}} </td>
-      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="timeInMonths">
+          <th mat-header-cell *matHeaderCellDef>quantidade meses</th>
+          <td mat-cell *matCellDef="let element">{{ element.timeInMonths }}</td>
+        </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="value">
-        <th mat-header-cell *matHeaderCellDef> valor final </th>
-        <td mat-cell *matCellDef="let element"> {{element.value | currency:'BRL':true}} </td>
-      </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef>valor final</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.value | currency : "BRL" : true }}
+          </td>
+        </ng-container>
 
-
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-  </form>
-
-
-
-
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </form>
   </mat-sidenav-content>
 </mat-sidenav-container>
