@@ -21,11 +21,15 @@ public class InvestmentsControllerTests
 
         // Act
         var result = controller.CalculateFinalValue(investmentModel);
+        var objectResult = Assert.IsType<InvestmentResult>(result.Value);
+
 
         // Assert
         Assert.NotNull(result);
-        var expectedFinalValue = new Investment(investmentModel.InitialValue, investmentModel.TimeInMonths).CalculateFinalValue();
-        Assert.Equal(expectedFinalValue, result.Value);
+        var expectedFinalValue = new Investment(investmentModel.InitialValue, investmentModel.TimeInMonths).CalculateFinalValues();
+
+        Assert.Equal(expectedFinalValue.NetValue, objectResult.NetValue);
+        Assert.Equal(expectedFinalValue.GrossValue, objectResult.GrossValue);
     }
 
     [Fact]

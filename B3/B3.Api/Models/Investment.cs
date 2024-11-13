@@ -35,15 +35,24 @@ public class Investment
         };
     }
 
-    public decimal CalculateFinalValue()
+    public InvestmentResult CalculateFinalValues()
     {
-        var finalValue = InitialValue;
+        // Calcula o valor bruto (antes dos impostos)
+        var grossValue = InitialValue;
         for (int i = 0; i < TimeInMonths; i++)
         {
-            finalValue *= (1 + Cdi * Tb);
+            grossValue *= (1 + Cdi * Tb);
         }
-        finalValue -= finalValue * GetTaxPercentage();
 
-        return finalValue;
+        // Calcula o rendimento
+        var profit = grossValue - InitialValue;
+
+        // Calcula o imposto sobre o rendimento
+        var tax = profit * GetTaxPercentage();
+
+        // Calcula o valor líquido (após impostos)
+        var netValue = grossValue - tax;
+
+        return new InvestmentResult { GrossValue = grossValue, NetValue = netValue };
     }
 }

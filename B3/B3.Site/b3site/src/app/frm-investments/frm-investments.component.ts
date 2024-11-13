@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { InvestmentService } from '../services/investment.service';
 import { MatTable } from '@angular/material/table';
+import { InvestmentResult } from '../services/InvestmentResult';
 
 @Component({
   selector: 'app-frm-investments',
@@ -18,7 +19,7 @@ import { MatTable } from '@angular/material/table';
 })
 export class FrmInvestmentsComponent {
   frm: FormGroup;
-  displayedColumns: string[] = ['initialValue', 'timeInMonths', 'value'];
+  displayedColumns: string[] = ['initialValue', 'timeInMonths', 'grossValue', 'netValue'];
   elementos: any[] = [];
   dataSource: any[] = [];
   @ViewChild(MatTable) table: MatTable<any> | undefined;
@@ -43,11 +44,12 @@ export class FrmInvestmentsComponent {
   onSubmit(): void {
     if (this.frm.valid) {
       this.investmentService.calculateFinalValue(this.frm.value).subscribe({
-        next: (value: any) => {
+        next: (value: InvestmentResult) => {
           this.dataSource.push({
             initialValue: this.frm.value.initialValue,
             timeInMonths: this.frm.value.timeInMonths,
-            value: value,
+            grossValue: value.grossValue,
+            netValue: value.netValue,
           });
           this.table?.renderRows();
 

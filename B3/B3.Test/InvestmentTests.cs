@@ -45,17 +45,18 @@ public class InvestmentTests
     }
 
     [Theory]
-    [InlineData(1000, 6, 821.31064)]
-    [InlineData(1000, 12, 898.46567)]
-    public void CalculateFinalValue_ShouldReturnCorrectFinalValue(decimal initialValue, int timeInMonths, decimal expectedFinalValue)
+    [InlineData(1000, 6, 1059.75567, 1046.31064)]
+    [InlineData(1000, 12, 1123.08209, 1098.46567)]
+    public void CalculateFinalValue_ShouldReturnCorrectFinalValue(decimal initialValue, int timeInMonths, decimal grossValue, decimal netValue)
     {
         // Arrange
         var investment = new Investment(initialValue, timeInMonths);
 
         // Act
-        var finalValue = investment.CalculateFinalValue();
+        var finalValue = investment.CalculateFinalValues();
 
         // Assert
-        Assert.Equal(expectedFinalValue, finalValue, precision: 2);
+        Assert.Equal(grossValue, finalValue.GrossValue, precision: 2);
+        Assert.Equal(netValue, finalValue.NetValue, precision: 2);
     }
 }

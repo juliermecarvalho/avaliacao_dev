@@ -8,4 +8,4 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd $apiPath; dotn
 
 # Abrir o site Angular
 Write-Host "Abrindo o site Angular em: $sitePath"
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd $sitePath; npm i --force; ng serve -o"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd $sitePath; npm install --force or --legacy-peer-deps; ng serve -o"
