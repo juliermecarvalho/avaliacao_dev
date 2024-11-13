@@ -33,7 +33,7 @@ Este script PowerShell start-b3-environment.ps1 automatiza a inicialização do 
 1. Navega até a pasta "B3\B3.Api" e executa o comando `dotnet run` para iniciar a API.
 2. Abre uma nova janela do PowerShell, navega até a pasta "B3\B3.Site\b3site", instala as dependências do Angular com `npm install --force or --legacy-peer-deps` e inicia o servidor com `ng serve -o`.
 
-**Como Executar o Script:**
+**CExecute o script diretamente, sem abrir VS Code ou Visual Studio:**
 
 1. Certifique-se de que o PowerShell está configurado para permitir a execução de scripts.
    - Você pode ajustar isso executando `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` no PowerShell.
