@@ -37,7 +37,5 @@ Este script PowerShell automatiza a inicialização do backend e do frontend do 
 
 1. Certifique-se de que o PowerShell está configurado para permitir a execução de scripts.
    - Você pode ajustar isso executando `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` no PowerShell.
-2. Execute o script com o comando `.\<nome_do_script>.ps1` na pasta onde ele está localizado.
+2. Execute o script com o comando `.\start-b3-environment.ps1` na pasta onde ele está localizado.
 
-**Sugestão de Nome para o Script:**
-- `start-b3-environment.ps1`
