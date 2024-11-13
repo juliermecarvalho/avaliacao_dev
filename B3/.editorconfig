@@ -1,5 +1,6 @@
 ﻿[*.cs]
 
+
 # S4144: Methods should not have identical implementations
 dotnet_diagnostic.S4144.severity = none
 csharp_indent_labels = one_less_than_current
