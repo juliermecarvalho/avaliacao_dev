@@ -32,7 +32,7 @@ public class InvestmentTests
 
         // Act & Assert
         var exception = Assert.Throws<ArgumentException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
-        Assert.Equal("O mês deve ser maior que 0 (Parameter 'timeInMonths')", exception.Message);
+        Assert.Equal("O mês deve ser maior que 1 (Parameter 'timeInMonths')", exception.Message);
     }
 
     [Fact]
