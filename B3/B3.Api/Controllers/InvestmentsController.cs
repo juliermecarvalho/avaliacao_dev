@@ -5,8 +5,9 @@ namespace B3.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InvestmentsController : ControllerBase
+public class InvestmentsController(IInvestment investment) : ControllerBase
 {
+
 
     [HttpPost("calculate-final-value")]
     [ValidateModel<InvestmentModel>] // validador usando o FluentValidation
@@ -14,9 +15,7 @@ public class InvestmentsController : ControllerBase
     {
         try
         {
-            //poderia usar mapper para mapear o model para a entidade
-            var investmentService = new Investment(investmentModel.InitialValue, investmentModel.TimeInMonths);
-            var investmentResult = investmentService.CalculateFinalValues();
+            var investmentResult = investment.CalculateFinalValues(investmentModel.InitialValue, investmentModel.TimeInMonths);
             return investmentResult;
         }
         catch (Exception)

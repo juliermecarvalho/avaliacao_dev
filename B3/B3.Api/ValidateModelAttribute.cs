@@ -9,7 +9,8 @@ namespace B3.Api;
 /// Caso o modelo seja inválido, retorna um BadRequestObjectResult com as mensagens de erro de validação.
 /// </summary>
 /// <typeparam name="T">O tipo do modelo a ser validado.</typeparam>
-public class ValidateModelAttribute<T> : ActionFilterAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+public class ValidateModelAttribute<T> : ActionFilterAttribute where T : class
 {
     /// <summary>
     /// Chamado antes da execução do método da ação. Valida o modelo do tipo T utilizando o FluentValidation.
@@ -19,12 +20,12 @@ public class ValidateModelAttribute<T> : ActionFilterAttribute
     {
         var model = context.ActionArguments.Values.OfType<T>().FirstOrDefault();
 
-        if (model != null)
+        if (model is not null)
         {
             var validatorType = typeof(IValidator<T>);
-            var validator = (IValidator<T>)context.HttpContext.RequestServices.GetService(validatorType);
+            var validator = context.HttpContext.RequestServices.GetService(validatorType) as IValidator<T>;
 
-            if (validator != null)
+            if (validator is not null)
             {
                 var validationContext = new ValidationContext<T>(model);
                 var validationResult = validator.Validate(validationContext);

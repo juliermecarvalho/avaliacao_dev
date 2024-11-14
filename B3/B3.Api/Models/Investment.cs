@@ -1,32 +1,13 @@
 namespace B3.Api.Models;
 
-public class Investment
+public class Investment : IInvestment
 {
-    public decimal InitialValue { get; private set; }
-    public int TimeInMonths { get; private set; }
-
     private const decimal Cdi = 0.009m;
     private const decimal Tb = 1.08m;
 
-    public Investment(decimal initialValue, int timeInMonths)
+    public decimal GetTaxPercentage(int timeInMonths)
     {
-        if (timeInMonths < 1)
-        {
-            throw new ArgumentException("O mês deve ser maior que 0", nameof(timeInMonths));
-        }
-
-        if (initialValue <= 0)
-        {
-            throw new ArgumentException("O valor inicial deve ser maior que 0", nameof(initialValue));
-        }
-
-        InitialValue = initialValue;
-        TimeInMonths = timeInMonths;
-    }
-
-    public decimal GetTaxPercentage()
-    {
-        return TimeInMonths switch
+        return timeInMonths switch
         {
             <= 6 => 0.225m,
             <= 12 => 0.2m,
@@ -35,28 +16,38 @@ public class Investment
         };
     }
 
-    public InvestmentResult CalculateFinalValues()
+    public InvestmentResult CalculateFinalValues(decimal initialValue, int timeInMonths)
     {
+        if (timeInMonths < 1)
+        {
+            throw new ArgumentException("O mês deve ser maior que 1", nameof(timeInMonths));
+        }
+
+        if (initialValue <= 0)
+        {
+            throw new ArgumentException("O valor inicial deve ser maior que 0", nameof(initialValue));
+        }
+
         // Calcula o valor bruto (antes dos impostos)
-        var grossValue = InitialValue;
-        for (int i = 0; i < TimeInMonths; i++)
+        var grossValue = initialValue;
+        for (int i = 0; i < timeInMonths; i++)
         {
             grossValue *= (1 + Cdi * Tb);
         }
 
         // Calcula o rendimento
-        var profit = grossValue - InitialValue;
+        var profit = grossValue - initialValue;
 
         // Calcula o imposto sobre o rendimento
-        var tax = profit * GetTaxPercentage();
+        var tax = profit * GetTaxPercentage(timeInMonths);
 
         // Calcula o valor líquido (após impostos)
         var netValue = grossValue - tax;
 
         return new InvestmentResult
         {
-            InitialValue = InitialValue,
-            TimeInMonths = TimeInMonths,
+            InitialValue = initialValue,
+            TimeInMonths = timeInMonths,
             GrossValue = grossValue,
             NetValue = netValue
         };

@@ -1,4 +1,5 @@
 using System.Reflection;
+using B3.Api.Models;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IInvestment, Investment>();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetEntryAssembly());
 
 var app = builder.Build();
@@ -31,4 +33,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

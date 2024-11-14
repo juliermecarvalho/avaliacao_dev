@@ -2,6 +2,7 @@ using B3.Api;
 using B3.Api.Controllers;
 using B3.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Xunit;
 
 namespace B3.Test;
@@ -17,23 +18,33 @@ public class InvestmentsControllerTests
             InitialValue = 1000m,
             TimeInMonths = 12
         };
-        var controller = new InvestmentsController();
+
+        var expectedResult = new InvestmentResult
+        {
+            InitialValue = 1000m,
+            TimeInMonths = 12,
+            GrossValue = 1120m, // Exemplo de valor bruto
+            NetValue = 1100m    // Exemplo de valor líquido
+        };
+
+        var mockInvestment = new Mock<IInvestment>();
+        mockInvestment.Setup(i => i.CalculateFinalValues(investmentModel.InitialValue, investmentModel.TimeInMonths))
+                      .Returns(expectedResult);
+
+        var controller = new InvestmentsController(mockInvestment.Object);
 
         // Act
         var result = controller.CalculateFinalValue(investmentModel);
-        var objectResult = Assert.IsType<InvestmentResult>(result.Value);
-
 
         // Assert
         Assert.NotNull(result);
-        var expectedFinalValue = new Investment(investmentModel.InitialValue, investmentModel.TimeInMonths).CalculateFinalValues();
-
-        Assert.Equal(expectedFinalValue.NetValue, objectResult.NetValue);
-        Assert.Equal(expectedFinalValue.GrossValue, objectResult.GrossValue);
+        var objectResult = Assert.IsType<InvestmentResult>(result.Value);
+        Assert.Equal(expectedResult.NetValue, objectResult.NetValue);
+        Assert.Equal(expectedResult.GrossValue, objectResult.GrossValue);
     }
 
     [Fact]
-    public void CalculateFinalValue_ShouldThrowArgumentException_WhenModelIsInvalid()
+    public void CalculateFinalValue_ShouldReturnInternalServerError_WhenExceptionIsThrown()
     {
         // Arrange
         var investmentModel = new InvestmentModel
@@ -41,16 +52,21 @@ public class InvestmentsControllerTests
             InitialValue = -1000m, // Valor inválido para forçar uma exceção
             TimeInMonths = 12
         };
-        var controller = new InvestmentsController();
+
+        var mockInvestment = new Mock<IInvestment>();
+        mockInvestment.Setup(i => i.CalculateFinalValues(investmentModel.InitialValue, investmentModel.TimeInMonths))
+                      .Throws(new ArgumentException("O valor inicial deve ser maior que 0"));
+
+        var controller = new InvestmentsController(mockInvestment.Object);
 
         // Act
-        var result = controller.CalculateFinalValue(investmentModel);
+        var objectResult = controller.CalculateFinalValue(investmentModel);
+        var result = Assert.IsType<ObjectResult>(objectResult.Result);
 
         // Assert
         Assert.NotNull(result);
-        var objectResult = Assert.IsType<ObjectResult>(result.Result);
-        Assert.Equal(500, objectResult.StatusCode);
-        Assert.Equal("An error occurred while calculating the final value.", objectResult.Value);
+        Assert.Equal(500, result.StatusCode);
+        Assert.Equal("An error occurred while calculating the final value.", result.Value);
     }
 
     [Fact]
@@ -60,7 +76,7 @@ public class InvestmentsControllerTests
         var methodInfo = typeof(InvestmentsController).GetMethod("CalculateFinalValue");
 
         // Act
-        var hasValidateModelAttribute = methodInfo.GetCustomAttributes(typeof(ValidateModelAttribute<>), false).Any();
+        var hasValidateModelAttribute = methodInfo != null && methodInfo.GetCustomAttributes(typeof(ValidateModelAttribute<>), false).Any();
 
         // Assert
         Assert.True(hasValidateModelAttribute, "O método CalculateFinalValue deve ter o atributo ValidateModel<InvestmentModel>.");

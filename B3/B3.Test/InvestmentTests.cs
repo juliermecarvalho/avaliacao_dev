@@ -6,54 +6,58 @@ namespace B3.Test;
 public class InvestmentTests
 {
     [Theory]
-    [InlineData(1000, 6, 0.225)]
-    [InlineData(1000, 12, 0.2)]
-    [InlineData(1000, 24, 0.175)]
-    [InlineData(1000, 25, 0.15)]
-    public void GetTaxPercentage_ShouldReturnCorrectTaxPercentage(decimal initialValue, int timeInMonths, decimal expectedTaxPercentage)
+    [InlineData(6, 0.225)]
+    [InlineData(12, 0.2)]
+    [InlineData(24, 0.175)]
+    [InlineData(25, 0.15)]
+    public void GetTaxPercentage_ShouldReturnCorrectTaxPercentage(int timeInMonths, decimal expectedTaxPercentage)
     {
         // Arrange
-        var investment = new Investment(initialValue, timeInMonths);
+        IInvestment investment = new Investment();
 
         // Act
-        var taxPercentage = investment.GetTaxPercentage();
+        var taxPercentage = investment.GetTaxPercentage(timeInMonths);
 
         // Assert
         Assert.Equal(expectedTaxPercentage, taxPercentage);
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentException_WhenTimeInMonthsIsLessThanOne()
+    public void CalculateFinalValues_ShouldThrowArgumentException_WhenTimeInMonthsIsLessThanOne()
     {
         // Arrange
         var initialValue = 1000m;
         var timeInMonths = 0;
+        IInvestment investment = new Investment();
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => new Investment(initialValue, timeInMonths));
+        var exception = Assert.Throws<ArgumentException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
+        Assert.Equal("O mês deve ser maior que 0 (Parameter 'timeInMonths')", exception.Message);
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentException_WhenInitialValueIsLessThanOrEqualToZero()
+    public void CalculateFinalValues_ShouldThrowArgumentException_WhenInitialValueIsLessThanOrEqualToZero()
     {
         // Arrange
         var initialValue = 0m;
         var timeInMonths = 12;
+        IInvestment investment = new Investment();
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => new Investment(initialValue, timeInMonths));
+        var exception = Assert.Throws<ArgumentException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
+        Assert.Equal("O valor inicial deve ser maior que 0 (Parameter 'initialValue')", exception.Message);
     }
 
     [Theory]
     [InlineData(1000, 6, 1059.75567, 1046.31064)]
     [InlineData(1000, 12, 1123.08209, 1098.46567)]
-    public void CalculateFinalValue_ShouldReturnCorrectFinalValue(decimal initialValue, int timeInMonths, decimal grossValue, decimal netValue)
+    public void CalculateFinalValues_ShouldReturnCorrectFinalValue(decimal initialValue, int timeInMonths, decimal grossValue, decimal netValue)
     {
         // Arrange
-        var investment = new Investment(initialValue, timeInMonths);
+        IInvestment investment = new Investment();
 
         // Act
-        var finalValue = investment.CalculateFinalValues();
+        var finalValue = investment.CalculateFinalValues(initialValue, timeInMonths);
 
         // Assert
         Assert.Equal(initialValue, finalValue.InitialValue, precision: 2);
@@ -62,3 +66,4 @@ public class InvestmentTests
         Assert.Equal(netValue, finalValue.NetValue, precision: 2);
     }
 }
+

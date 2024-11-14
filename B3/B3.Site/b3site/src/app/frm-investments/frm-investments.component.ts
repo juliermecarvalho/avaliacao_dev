@@ -18,9 +18,9 @@ import { InvestmentResult } from '../services/InvestmentResult';
   styleUrls: ['./frm-investments.component.scss'],
 })
 export class FrmInvestmentsComponent {
-  frm: FormGroup;
+  investmentForm: FormGroup;
+  errorMessage: string | null = null;
   displayedColumns: string[] = ['initialValue', 'timeInMonths', 'grossValue', 'netValue'];
-  elementos: any[] = [];
   dataSource: any[] = [];
   @ViewChild(MatTable) table: MatTable<any> | undefined;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -35,15 +35,15 @@ export class FrmInvestmentsComponent {
     private formBuilder: FormBuilder,
     private investmentService: InvestmentService
   ) {
-    this.frm = this.formBuilder.group({
-      initialValue: new FormControl(null, [Validators.required]),
-      timeInMonths: new FormControl(null, [Validators.required]),
+    this.investmentForm = this.formBuilder.group({
+      initialValue: new FormControl(null, [Validators.required, Validators.min(1)]),
+      timeInMonths: new FormControl(null, [Validators.required, Validators.min(2)]),
     });
   }
 
   onSubmit(): void {
-    if (this.frm.valid) {
-      this.investmentService.calculateFinalValue(this.frm.value).subscribe({
+    if (this.investmentForm.valid) {
+      this.investmentService.calculateFinalValue(this.investmentForm.value).subscribe({
         next: (value: InvestmentResult) => {
           this.dataSource.push({
             initialValue: value.initialValue,
@@ -53,9 +53,14 @@ export class FrmInvestmentsComponent {
           });
           this.table?.renderRows();
 
-          this.frm.reset();
-          this.frm.markAsPending();
-        },
+          this.investmentForm.reset();
+          this.investmentForm.markAsPending();
+          this.errorMessage = null;
+
+        }, error: (error) => {
+          console.log(error);
+          this.errorMessage = error.error;
+        }
       });
     }
   }
