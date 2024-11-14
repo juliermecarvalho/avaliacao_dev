@@ -53,6 +53,12 @@ public class Investment
         // Calcula o valor líquido (após impostos)
         var netValue = grossValue - tax;
 
-        return new InvestmentResult { GrossValue = grossValue, NetValue = netValue };
+        return new InvestmentResult
+        {
+            InitialValue = InitialValue,
+            TimeInMonths = TimeInMonths,
+            GrossValue = grossValue,
+            NetValue = netValue
+        };
     }
 }

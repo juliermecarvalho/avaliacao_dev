@@ -56,6 +56,8 @@ public class InvestmentTests
         var finalValue = investment.CalculateFinalValues();
 
         // Assert
+        Assert.Equal(initialValue, finalValue.InitialValue, precision: 2);
+        Assert.Equal(timeInMonths, finalValue.TimeInMonths);
         Assert.Equal(grossValue, finalValue.GrossValue, precision: 2);
         Assert.Equal(netValue, finalValue.NetValue, precision: 2);
     }

@@ -46,8 +46,8 @@ export class FrmInvestmentsComponent {
       this.investmentService.calculateFinalValue(this.frm.value).subscribe({
         next: (value: InvestmentResult) => {
           this.dataSource.push({
-            initialValue: this.frm.value.initialValue,
-            timeInMonths: this.frm.value.timeInMonths,
+            initialValue: value.initialValue,
+            timeInMonths: value.timeInMonths,
             grossValue: value.grossValue,
             netValue: value.netValue,
           });
