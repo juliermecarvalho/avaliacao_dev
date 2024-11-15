@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace B3.Api;
+namespace B3.Api.FilterAttribute;
 
 /// <summary>
 /// Filtro de ação personalizado para validar um modelo usando FluentValidation.

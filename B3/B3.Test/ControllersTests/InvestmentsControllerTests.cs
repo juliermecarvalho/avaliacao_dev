@@ -1,11 +1,11 @@
-using B3.Api;
 using B3.Api.Controllers;
+using B3.Api.FilterAttribute;
 using B3.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace B3.Test;
+namespace B3.Test.ControllersTests;
 
 public class InvestmentsControllerTests
 {

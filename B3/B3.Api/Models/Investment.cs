@@ -1,3 +1,5 @@
+using B3.Api.Extensions;
+
 namespace B3.Api.Models;
 
 public class Investment : IInvestment
@@ -18,15 +20,9 @@ public class Investment : IInvestment
 
     public InvestmentResult CalculateFinalValues(decimal initialValue, int timeInMonths)
     {
-        if (timeInMonths < 1)
-        {
-            throw new ArgumentException("O mês deve ser maior que 1", nameof(timeInMonths));
-        }
 
-        if (initialValue <= 0)
-        {
-            throw new ArgumentException("O valor inicial deve ser maior que 0", nameof(initialValue));
-        }
+        ArgumentValidationExtensions.ThrowIfNotGreaterThanOne(timeInMonths, nameof(timeInMonths));
+        ArgumentValidationExtensions.ThrowIfNotGreaterThanZero(initialValue, nameof(initialValue));
 
         // Calcula o valor bruto (antes dos impostos)
         var grossValue = initialValue;

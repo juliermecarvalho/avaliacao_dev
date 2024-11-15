@@ -1,7 +1,7 @@
 using B3.Api.Models;
 using Xunit;
 
-namespace B3.Test;
+namespace B3.Test.ModelsTests;
 
 public class InvestmentTests
 {
@@ -31,8 +31,8 @@ public class InvestmentTests
         IInvestment investment = new Investment();
 
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
-        Assert.Equal("O mês deve ser maior que 1 (Parameter 'timeInMonths')", exception.Message);
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
+        Assert.Equal("O valor deve ser maior que 1. (Parameter 'timeInMonths')", exception.Message);
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class InvestmentTests
         IInvestment investment = new Investment();
 
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
-        Assert.Equal("O valor inicial deve ser maior que 0 (Parameter 'initialValue')", exception.Message);
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => investment.CalculateFinalValues(initialValue, timeInMonths));
+        Assert.Equal("O valor deve ser maior que 0. (Parameter 'initialValue')", exception.Message);
     }
 
     [Theory]

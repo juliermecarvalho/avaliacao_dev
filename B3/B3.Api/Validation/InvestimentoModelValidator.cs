@@ -1,7 +1,7 @@
 ﻿using B3.Api.Models;
 using FluentValidation;
 
-namespace B3.Api.FluentValidation;
+namespace B3.Api.Validation;
 
 public class InvestimentoModelValidator : AbstractValidator<InvestmentModel>
 {
