@@ -65,5 +65,21 @@ public class InvestmentTests
         Assert.Equal(grossValue, finalValue.GrossValue, precision: 2);
         Assert.Equal(netValue, finalValue.NetValue, precision: 2);
     }
+
+    [Theory]
+    [InlineData(1000, 6, 1059.75567)]
+    [InlineData(1000, 12, 1123.08209)]
+    [InlineData(1000, 24, 1261.31339)]
+    public void CalculateGrossValue_ValidInputs_ReturnsExpectedGrossValue(decimal initialValue, int timeInMonths, decimal expectedGrossValue)
+    {
+        // Arrange
+        var investment = new Investment();
+
+        // Act
+        var result = investment.CalculateGrossValue(initialValue, timeInMonths);
+
+        // Assert
+        Assert.Equal(expectedGrossValue, result, 2); // Precision of 2 decimal places
+    }
 }
 

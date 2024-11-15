@@ -18,18 +18,23 @@ public class Investment : IInvestment
         };
     }
 
+    public decimal CalculateGrossValue(decimal initialValue, int timeInMonths)
+    {
+        var grossValue = initialValue;
+        for (int i = 0; i < timeInMonths; i++)
+        {
+            grossValue *= (1 + Cdi * Tb);
+        }
+        return grossValue;
+    }
+
     public InvestmentResult CalculateFinalValues(decimal initialValue, int timeInMonths)
     {
 
         ArgumentValidationExtensions.ThrowIfNotGreaterThanOne(timeInMonths, nameof(timeInMonths));
         ArgumentValidationExtensions.ThrowIfNotGreaterThanZero(initialValue, nameof(initialValue));
 
-        // Calcula o valor bruto (antes dos impostos)
-        var grossValue = initialValue;
-        for (int i = 0; i < timeInMonths; i++)
-        {
-            grossValue *= (1 + Cdi * Tb);
-        }
+        var grossValue = CalculateGrossValue(initialValue, timeInMonths);
 
         // Calcula o rendimento
         var profit = grossValue - initialValue;
